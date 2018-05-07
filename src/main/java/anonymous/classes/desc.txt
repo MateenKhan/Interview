@@ -1,0 +1,4 @@
+AIC: Annonymous inner class 
+A normal class can implement any number of interfaces, but AIC can extend only one interface
+A normal class can extend and implement interfaces at a time, but AIC can either extend class or implement interface at a time
+A normal class can have constructor, AIC cannot have constructor  
