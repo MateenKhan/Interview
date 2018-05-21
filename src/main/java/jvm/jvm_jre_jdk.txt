@@ -1,0 +1,3 @@
+jvm: executes the byte code, this is what makes java indepenedent language, this is different for every o.s.
+jre: jre has jvm + libraries which is used to execute the code
+jdk: jre + compilers + debuggers

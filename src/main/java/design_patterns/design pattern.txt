@@ -1,0 +1,10 @@
+Design patterns(dp) are standard solutions to commonly occuring problems
+dp are divided into three categories
+1. creational
+2. structural
+3. behvioural
+
+1. creational::
+	Provides solutions to create objects in a best possible way
+
+		- Singleton : ensures only one object per jvm
