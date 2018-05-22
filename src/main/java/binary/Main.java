@@ -1,6 +1,13 @@
 package binary;
 
-public class Main {
+import java.io.Serializable;
+
+public class Main implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public static void main(String[] args) {
 //		System.out.println(binarySearch(new int[]{1,2,3,4}, 2));
