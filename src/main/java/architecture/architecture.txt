@@ -1,0 +1,48 @@
+Jvm : executes the byte code
+jre : jvm + other libraries
+jdf : jre + compilers + debuggers
+
+Flow of execution of a java application:
+
+	-jre loads the application into memory
+		1. jre loads the classes by class loader and 
+			
+			Class Loader loads performs the below 3 operations in the strict order
+			1. Loading: finds and imports the binary data for a type
+			2. Linking: performs verification, preparation, and (optionally) resolution
+				-verification: ensure the correctness of the imported type
+				-preparation: allocate memory to class variables and initializing with default values
+				-resolution: transform symbolic references from the type into direct references
+			3. Initialization: invokes the java code that initializes class variables to their proper starting value 
+			There are two types of class loaders 
+			1. Bootstrap class loader
+			2. User defined class loader: class loaders are written in java
+				- hence by extending predefined class loaders we can write custom class loader
+				 
+			
+			When jvm is started three class loaders are used
+			1. bootstrap class loader
+				- loads core java libraries present in <JAVA_HOME>/jre/lib
+			2. extension class loader 
+				- loads the libraries from <JAVA_HOME>/jre/lib/ext
+			3. system class loader
+			 	- loads the code found on java.class.path 
+			
+			Class loader maintains separation by name space(fully qualified class names)
+		2. verifies the code by byte code verifier,
+			byte code verifier checks if there any security issues in code, it ensures the following
+			 - code follow jvm specifications
+			 - There is no unauthorized access to memory
+			 - The code does not cause any stack overflows.
+			 - There are no illegal data conversions in the code such as float to object references.
+		once jre is good to go
+		3. jvm converts the byte code into machine code
+			jvm uses jit compiler to speed up the byte code to machine code conversion
+			when byte code is compiled to machine code jit caches it which can be used in future
+			the compilation by jit happens just before executing the byte code (hence the name JIT)
+			so if the same code is executed multiple times JIT improves the performance
+			
+			
+Java is secure due to class loaders and byte code verifiers
+Garbage collection :
+two methods are available by which gc can be invoked System.gc() and Runtime.gc()
