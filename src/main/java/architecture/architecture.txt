@@ -2,47 +2,81 @@ Jvm : executes the byte code
 jre : jvm + other libraries
 jdf : jre + compilers + debuggers
 
-Flow of execution of a java application:
+Flow of execution of a java application after
+jre loads the application into memory:
+================================================================================================
+Class Loader loads performs the below 3 operations in the strict order
+1-> LOADING::
+	
+	When jvm is started three class loaders are used
+	Bootstrap class loader
+		- loads core java libraries present in <JAVA_HOME>/jre/lib
+	Extension class loader 
+		- loads the libraries from <JAVA_HOME>/jre/lib/ext
+	System class loader
+	 	- loads the code found on java.class.path
 
-	-jre loads the application into memory
-		1. jre loads the classes by class loader and 
+2-> LINKING::	 	 
+	1. Loading: finds and imports the binary data for a type
+	2. Linking: performs verification, preparation, and (optionally) resolution
+		-verification: ensure the correctness of the imported type
+		-preparation: allocate memory to static variables and static and initializing with default values
+		-resolution: transform symbolic references from the type into direct references
+	3. Initialization: invokes the java code that initializes static variables to their proper starting value 
+
+JVM follows delegation-hirarchy principal to load class
+eg : System class loader delegate request to Extension class loader and it delegates to Bootstrap loader
+if bootstrap loader donot find the class it deletgates to extension and then to system
+if finally the class is not found then ClassNotFoundException is thrown
+
+	Verifier verifies the code by byte code verifier,
+		byte code verifier checks if there any security issues in code, it ensures the following
+		 - code follow jvm specifications
+		 - There is no unauthorized access to memory
+		 - The code does not cause any stack overflows.
+		 - There are no illegal data conversions in the code such as float to object references.
+		 if any of the above is true then jvm throws verification error
+		 
+================================================================================================
+2-> Once the application is loaded into memory following memory area is used appropriately 
 			
-			Class Loader loads performs the below 3 operations in the strict order
-			1. Loading: finds and imports the binary data for a type
-			2. Linking: performs verification, preparation, and (optionally) resolution
-				-verification: ensure the correctness of the imported type
-				-preparation: allocate memory to class variables and initializing with default values
-				-resolution: transform symbolic references from the type into direct references
-			3. Initialization: invokes the java code that initializes class variables to their proper starting value 
-			There are two types of class loaders 
-			1. Bootstrap class loader
-			2. User defined class loader: class loaders are written in java
-				- hence by extending predefined class loaders we can write custom class loader
-				 
-			
-			When jvm is started three class loaders are used
-			1. bootstrap class loader
-				- loads core java libraries present in <JAVA_HOME>/jre/lib
-			2. extension class loader 
-				- loads the libraries from <JAVA_HOME>/jre/lib/ext
-			3. system class loader
-			 	- loads the code found on java.class.path 
-			
-			Class loader maintains separation by name space(fully qualified class names)
-		2. verifies the code by byte code verifier,
-			byte code verifier checks if there any security issues in code, it ensures the following
-			 - code follow jvm specifications
-			 - There is no unauthorized access to memory
-			 - The code does not cause any stack overflows.
-			 - There are no illegal data conversions in the code such as float to object references.
-		once jre is good to go
-		3. jvm converts the byte code into machine code
+	Runtime data area:memory space for java this is divided into below 5 major components:
+	1. Method area: all class level data will be stored here including static variables. 
+	2. Heap area : all Objects and their corresponding instance variables and arrays are stored here
+		Every JVM only has one method and heao area this is a shared resource. multiple threads access this area
+		so this is not thread safe
+	3. Stack area: for every method call one entry is created in stack memory called stack area
+		for every thread a separate run time stack is created
+		local variables are created in stack
+		stack is not a shared resource so this area is thread safe
+		following three entities come under stack area
+			1. Local variable area: Related to method and how many local variable are involved
+				and its corresponding values are stored here
+			2. Operand stack : if any intermediate operation is required to perform then this acts as a
+				runtime workspace to perform the operation
+			3. Frame data: All symbols corresponding to the method is stored here. In case of exception
+			 	catch block information is gathered from frame data
+	
+	4.PC registers: every thread will have separate PC registers. this will hold current executing instruction
+		if the current instruction is executed then PC register is updated
+	5. Native method stack : this will have native method information, for every thread a sepearate native stack is created
+
+===================================================================================================================
+3-> once jre is good to go
+		1. jvm converts the byte code into machine code
 			jvm uses jit compiler to speed up the byte code to machine code conversion
 			when byte code is compiled to machine code jit caches it which can be used in future
 			the compilation by jit happens just before executing the byte code (hence the name JIT)
 			so if the same code is executed multiple times JIT improves the performance
-			
+		2. Profiler : A special component used to find the hot spots i.e., if a method is called multiple times	
 			
 Java is secure due to class loaders and byte code verifiers
 Garbage collection :
 two methods are available by which gc can be invoked System.gc() and Runtime.gc()
+
+===================================================================================================================
+Native method like C or C++
+4. Native method Interface
+	 Its an interface which enables jvm to call native method libraries
+5. Native method Library
+	Its a collection of native libraries which are required by executing engine

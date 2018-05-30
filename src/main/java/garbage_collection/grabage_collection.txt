@@ -1,0 +1,23 @@
+There is a term that you should know before learning about GC. The term is "stop-the-world."
+Stop-the-world means that the JVM is stopping the application from running to execute a GC.
+When stop-the-world occurs, every thread except for the threads needed for the GC will stop their tasks.
+The interrupted tasks will resume only after the GC task has completed. GC tuning often means reducing this stop-the-world time.
+
+TODO:https://www.cubrid.org/blog/how-to-tune-java-garbage-collection
+
+Serial GC (-XX:+UseSerialGC)
+Parallel GC (-XX:+UseParallelGC)
+CMS GC (-XX:+UseConcMarkSweepGC)
+G1 GC -XX:+UnlockExperimentalVMOptions
+-XX:+UseG1GC
+
+Garbage collection (gc) is called in java to clean up resources in java
+gc is a demon thread
+Heap memory of unreachable objects is emtyied by gc
+any instance that is not reachable by live thread can be gc 
+gc works even with objects that are in island of isolation (ios)
+ios: if a1 is one object and a2 is another object 
+	if a1= a2;
+	and no object is reference either a1 or a2 then
+	both a1 and a2 are in island of isolation and can be gc.
+	

@@ -1,0 +1,24 @@
+The underlined data structure for ConcurrentHashMap is Hashtable.
+
+ConcurrentHashMap(chm) in Java is introduced as an alternative of Hashtable in Java, 
+which is a synchronized collection class,  that makes the main difference between HashMap and ConcurrentHashMap
+
+ConcurrentHashMap class is thread-safe i.e. multiple thread can operate on a single object without any complications.
+
+At a time any number of threads are applicable for read operation without locking the ConcurrentHashMap object 
+which is not there in HashMap.
+
+In chm thread-safety is achieved by dividing whole Map into different partition based upon Concurrency level 
+and only locking particular portion instead of locking the whole Map.
+
+
+ConcurrentHashMap is more scalable and performs better than Synchronized HashMap in the multi-threaded environment 
+while in Single threaded environment both HashMap and ConcurrentHashMap gives comparable performance, 
+where HashMap only slightly better.
+
+In ConcurrentHashMap, at a time any number of threads can perform retrieval operation but for updation in object, 
+thread must lock the particular segment in which thread want to operate.This type of locking mechanism is known as Segment locking or bucket locking
+
+Default concurrency-level of ConcurrentHashMap is 16.Hence at a time 16 updation operations can be performed by threads.
+
+null insertion is not possible in ConcurrentHashMap as key or value.

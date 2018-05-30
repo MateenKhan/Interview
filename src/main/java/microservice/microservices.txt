@@ -1,0 +1,24 @@
+First, to be precise, when talking about microservices, we are actually referring to a microservice architecture
+
+This architecture type is a particular way of developing software, web or mobile applications as suites of independent services 
+ – a.k.a microservices
+
+These services are created to serve only one specific business function, such as: 
+user management, user roles, e-commerce cart, search engine, social media logins, etc.
+
+As per micorservice : "do one thing and do it perfect!"
+
+Furthermore, they are independent of each other, meaning they can be written in different programming languages 
+and use different data storages. the practically unlimited scalability
+
+
+Aadvantages::
+=======================================================
+allow developers to build their applications from various independent components which can easily be 
+changed, removed or upgraded without affecting the whole application – as is not the case with monoliths
+
+reusability
+
+Developers must be devops as they work on many things
+
+decomposition by business capability / subdomain
